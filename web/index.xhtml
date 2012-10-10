@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+    Document   : index
+    Created on : 09/26/12
+    Author     : Sean Proulx
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    
+    <body>
+        
+        <ui:composition template="./WEB-INF/templates/template.xhtml">
+            
+            <ui:define name="content">
+                <h:form id="shannonsTheoremForm">
+                    <h:panelGrid columns="3">
+                        <h:outputLabel id="bandwidthLabel"
+                                       for="bandwidth"
+                                       value="${msgs.bw}" />
+
+                        <f:validateDoubleRange minimum="512.0" maximum="100000.0">
+                            <h:inputText
+                                         id="bandwidth"
+                                         label="Bandwidth"
+                                         required="true"
+                                         requiredMessage="${msgs.requiredBWMessage}"
+                                         size="8"
+                                         title="${msgs.bw}"
+                                         value="#{controller.model.bandwidth}">
+                            </h:inputText>
+                        </f:validateDoubleRange>                       
+
+                        <h:message id="bandwithMessage"
+                                   for="bandwidth"
+                                   style="color: red; font-style: italic;" />
+
+                        <h:outputLabel id="snrLabel"
+                                       for="snr"
+                                       value="${msgs.snr}" />
+                        <f:validateDoubleRange minimum="10.0" maximum="1000.0">
+                            <h:inputText id="snr"
+                                         label="Signal-to-Noise Ratio"
+                                         required="true"
+                                         requiredMessage="${msgs.requiredSNRMessage}"
+                                         size="8"
+                                         title="${msgs.snr}"
+                                         value="#{controller.model.signalToNoise}">
+                            </h:inputText>
+                        </f:validateDoubleRange>
+
+                        <h:message id="snrMessage"
+                                   for="snr"
+                                   style="color: red; font-style: italic;" />
+                    </h:panelGrid>
+                    <p>
+                        <h:commandButton id="calculateButton"
+                                         action="#{controller.doCalculateMDR()}"
+                                         title="${msgs.mdrButton}"
+                                         value="${msgs.mdrButton}" />
+                    </p>
+                </h:form>
+
+                <h:panelGrid columns="2">
+                    <h:outputLabel id="mdrLabel"
+                                   for="mdr"
+                                   value="${msgs.mdr}" />
+                    <h:outputText id="mdr" value="#{controller.model.maximumDataRate}" >
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                    </h:outputText>
+                </h:panelGrid>
+            </ui:define>
+
+        </ui:composition>
+        
+    </body>
+</html>
